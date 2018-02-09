@@ -55,6 +55,7 @@
 
 <script>
 import CarsService from '@/services/CarsService'
+import Noty from 'noty'
 
 export default {
 
@@ -101,6 +102,34 @@ export default {
 
 			try {
 				const response = await CarsService.delete(id);
+
+				if (response.data.status == 'Success') {
+					new Noty({
+						type: 'success',
+						text: 'Successfully deleted',
+						callbacks: {
+							afterShow() {
+								setTimeout(() => {
+									this.close()
+								}, 500)
+							}
+						}
+					}).show();
+				}
+
+				if (response.data.status == 'Error') {
+					new Noty({
+						type: 'error',
+						text: 'Error!',
+						callbacks: {
+							afterShow() {
+								setTimeout(() => {
+									this.close()
+								}, 500)
+							}
+						}
+					}).show();
+				}
 
 				this.getCars();
 			}
