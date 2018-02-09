@@ -38,7 +38,26 @@ module.exports.controller = app => {
 	/================================================*/
 
 	// Get list of cars
-	app.get('/cars/page=:page&limit= :limit', (req, res) => {
+	app.get('/cars', (req, res) => {
+
+		Car
+			.find({}, 'name brand engine power', (err, results) => {
+				if (err) {
+					res.send({
+						'status': 'Error'
+					})
+				} else {
+					res.send({
+						'status': 'Success',
+						'message': 'Cars is successfully found.',
+						'cars': results
+					})
+				}
+			})
+	})
+
+	// Get list of cars
+	app.get('/cars/page=:page&limit=:limit', (req, res) => {
 
 		let limit = parseInt(req.params.limit) || 10,
 			page = parseInt(req.params.page) || 1;
