@@ -25,22 +25,24 @@
 							th Power
 							th Actions
 					tbody
-						template(v-if='cars == 0')
-							td No cars found
-							td
-							td
-							td
-							td
-						tr(v-for='car in filteredCars' :key='car._id')
-							td {{ car.name }}
-							td {{ car.brand }}
-							td {{ car.engine }}
-							td {{ car.power }}
-							td
-								nuxt-link(:to='{ name: "cars-edit-id", params: { id: car._id } }')
-									i.edit.icon
-								a(@click='deleteCar(car._id)')
-									i.trash.outline.icon
+						template(v-if='cars.length == 0')
+							tr
+								td No cars found
+								td
+								td
+								td
+								td
+						template(v-else)
+							tr(v-for='car in cars' :key='car._id')
+								td {{ car.name }}
+								td {{ car.brand }}
+								td {{ car.engine }}
+								td {{ car.power }}
+								td
+									nuxt-link(:to='{ name: "cars-edit-id", params: { id: car._id } }')
+										i.edit.icon
+									a(@click='deleteCar(car._id)')
+										i.trash.outline.icon
 
 			.container__footer
 				.ui.buttons.mini
