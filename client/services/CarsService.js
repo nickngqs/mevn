@@ -3,8 +3,7 @@ import Api from '@/services/Api'
 export default {
 
 	findAll(data) {
-		if (!data) return Api().get('/cars')
-		return Api().get(`/cars/page=${data.page}&limit=${data.limit}`)
+		return Api().get(`/cars/page=${data.page}&limit=${data.limit}`);
 	},
 
 	findOne(id) {

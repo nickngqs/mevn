@@ -3,145 +3,119 @@ const Car = require('../models/CarsModel.js');
 module.exports.controller = app => {
 
 	/*=================================================
-	/	CREATE
+	/	Response Messages
+	/================================================*/
+
+	const message = {
+		created: 'Car is successfully created.',
+		updated: 'Car is successfully updated',
+		deleted: 'Car is successfully removed'
+	}
+
+	/*=================================================
+	/	Create
 	/================================================*/
 
 	app.post('/cars', (req, res) => {
 
-		console.log(req.body);
-
-		let newCar = new Car({
-			name: req.body.name,
-			brand: req.body.brand,
-			engine: req.body.engine,
-			power: req.body.power
-		});
-
-		newCar
-		.save()
-		.then(() => {
-			res.send({
-				'status': 'Success',
-				'message': 'Car is successfully created.',
+		Car
+			.create(req.body)
+			.then(() => {
+				res.send({
+					'status': 'Success',
+					'message': message.created
+				})
 			})
-		})
-		.catch(() => {
-			console.log('error');
-			res.send({
-				'status': 'Error'
+			.catch(() => {
+				res.send({
+					'status': 'Error'
+				})
 			})
-		});
 	})
 
 	/*=================================================
-	/	READ
+	/	Read
 	/================================================*/
 
-	// Get list of cars
+	// Get all the cars
 	app.get('/cars', (req, res) => {
 
+		console.log('asking for cars');
+
 		Car
-			.find({}, 'name brand engine power', (err, results) => {
-				if (err) {
-					res.send({
-						'status': 'Error'
-					})
-				} else {
-					res.send({
-						'status': 'Success',
-						'message': 'Cars is successfully found.',
-						'cars': results
-					})
-				}
+			.read()
+			.then((results) => {
+				res.send({
+					'status': 'Success',
+					'cars': results
+				})
+			})
+			.catch(() => {
+				res.send({
+					'status': 'Error'
+				})
 			})
 	})
 
-	// Get list of cars
+	// Get a list of cars based on page and limit
 	app.get('/cars/page=:page&limit=:limit', (req, res) => {
 
-		let limit = parseInt(req.params.limit) || 10,
-			page = parseInt(req.params.page) || 1;
+		let page = parseInt(req.params.page) || 1,
+			limit = parseInt(req.params.limit) || 10;
 
 		Car
-			.paginate({}, {
-				page: page,
-				limit: limit,
-				select: 'name brand engine power',
-				sort: { _id: -1 }
-			}, (err, results) => {
-				if (err) {
-					res.send({
-						'status': 'Error'
-					})
-				} else {
-					res.send({
-						'status': 'Success',
-						'message': 'Cars is successfully found.',
-						'cars': results.docs
-					})
-				}
+			.paginate(page, limit)
+			.then((results) => {
+				res.send({
+					'status': 'Success',
+					'cars': results.docs
+				})
+			})
+			.catch(() => {
+				res.send({
+					'status': 'Error'
+				})
 			})
 	})
 
 	// Get a single car
 	app.get('/cars/:id', (req, res) => {
 
-		let id = req.params.id;
-
 		Car
-			.findById(id, 'name brand engine power', (err, car) => {
-				if (err) {
-					res.send({
-						'status': 'Error'
-					})
-				} else {
-					res.send(car);
-				}
+			.readById(req.params.id)
+			.then((result) => {
+				res.send(result)
 			})
-
+			.catch(() => {
+				res.send({
+					'status': 'Error'
+				})
+			})
 	})
 
 	/*=================================================
-	/	UPDATE
+	/	Update
 	/================================================*/
 
 	app.put('/cars/:id', (req, res) => {
 
-		let id = req.params.id;
-
 		Car
-			.findById(id, 'name brand engine power', (err, car) => {
-				if (err) {
-					res.send({
-						'status': 'Error'
-					})
-				} else {
-
-					car.name = req.body.name;
-					car.brand = req.body.brand;
-					car.engine = req.body.engine;
-					car.power = req.body.power;
-
-					car
-					.save()
-					.then(() => {
-						res.send({
-							'status': 'Success',
-							'message': 'Car is successfully saved.'
-						})
-					})
-					.catch(() => {
-						res.send({
-							'status': 'Error'
-						})
-					})
-				}
+			.update(req.params.id, req.body)
+			.then(() => {
+				res.send({
+					'status': 'Success',
+					'message': message.updated
+				})
 			})
-
+			.catch(() => {
+				res.send({
+					'status': 'Error'
+				})
+			})
 	})
 
 	/*=================================================
-	/	DELETE
+	/	Delete
 	/================================================*/
 
 	app.delete('/cars/:id', (req, res) => {
@@ -149,13 +123,11 @@ module.exports.controller = app => {
 		let id = req.params.id;
 
 		Car
-			.remove({
-				_id: id
-			})
+			.remove(req.params.id)
 			.then(() => {
 				res.send({
 					'status': 'Success',
-					'message': 'Car is successfully deleted.'
+					'message': message.deleted
 				})
 			})
 			.catch(() => {
