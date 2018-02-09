@@ -1,0 +1,31 @@
+{
+	"name": "mevn-client",
+	"version": "1.0.0",
+	"description": "MEVN Client",
+	"author": "nickngqs <nickngqs@gmail.com>",
+	"private": true,
+	"scripts": {
+		"dev": "nuxt",
+		"build": "nuxt build",
+		"start": "nuxt start",
+		"generate": "nuxt generate",
+		"lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+		"precommit": "npm run lint"
+	},
+	"dependencies": {
+		"axios": "^0.17.1",
+		"node-sass": "^4.7.2",
+		"noty": "^3.2.0-beta",
+		"nuxt": "^1.0.0",
+		"pug": "^2.0.0-rc.4",
+		"pug-loader": "^2.3.0",
+		"sass-loader": "^6.0.6"
+	},
+	"devDependencies": {
+		"babel-eslint": "^8.2.1",
+		"eslint": "^4.15.0",
+		"eslint-friendly-formatter": "^3.0.0",
+		"eslint-loader": "^1.7.1",
+		"eslint-plugin-vue": "^4.0.0"
+	}
+}

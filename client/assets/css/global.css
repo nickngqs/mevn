@@ -1,0 +1,48 @@
+section {
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.container {
+	width: 100%;
+	max-width: 1024px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.container__header {
+	margin-top: 30px;
+}
+
+.container__search {
+	display: flex;
+
+	margin-top: 30px;
+}
+
+.container__search__left {
+	width: calc(100% - 20px);
+}
+
+.container__search__right {
+	margin-left: 20px;
+}
+
+.container__main {
+	margin-top: 30px;
+}
+
+.container__footer {
+	display: flex;
+	justify-content: center;
+
+	margin-top: 30px;
+}
+
+nuxt-link, a {
+	cursor: pointer;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
