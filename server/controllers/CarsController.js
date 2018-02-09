@@ -1,12 +1,5 @@
 const Car = require('../models/CarsModel.js');
 
-/*
- *	REFACTOR
- *
- *	CREATE CRUD HELPER FUNCTIONS
- *  MOVE RESPONSE MESSAGES TO A FUNCTION
- */
-
 module.exports.controller = app => {
 
 	/*=================================================
@@ -45,7 +38,7 @@ module.exports.controller = app => {
 	/================================================*/
 
 	// Get list of cars
-	app.get('/cars/page=:page&limit=:limit', (req, res) => {
+	app.get('/cars/page=:page&limit= :limit', (req, res) => {
 
 		let limit = parseInt(req.params.limit) || 10,
 			page = parseInt(req.params.page) || 1;
@@ -58,7 +51,9 @@ module.exports.controller = app => {
 				sort: { _id: -1 }
 			}, (err, results) => {
 				if (err) {
-					console.log(err);
+					res.send({
+						'status': 'Error'
+					})
 				} else {
 					res.send({
 						'status': 'Success',
@@ -67,20 +62,6 @@ module.exports.controller = app => {
 					})
 				}
 			})
-
-		// Car
-		// .find({}, 'name brand engine power', (err, cars) => {
-		// 	if (err) {
-		// 		console.log(err);
-		// 	} else {
-		// 		res.send({
-		// 			'status': 'Success',
-		// 			'message': 'Cars is successfully found.',
-		// 			'cars': cars
-		// 		})
-		// 	}
-		// })
-		// .sort({ _id: 'asc' })
 	})
 
 	// Get a single car
@@ -89,13 +70,15 @@ module.exports.controller = app => {
 		let id = req.params.id;
 
 		Car
-		.findById(id, 'name brand engine power', (err, car) => {
-			if (err) {
-				console.log(err);
-			} else {
-				res.send(car);
-			}
-		})
+			.findById(id, 'name brand engine power', (err, car) => {
+				if (err) {
+					res.send({
+						'status': 'Error'
+					})
+				} else {
+					res.send(car);
+				}
+			})
 
 	})
 
@@ -108,31 +91,33 @@ module.exports.controller = app => {
 		let id = req.params.id;
 
 		Car
-		.findById(id, 'name brand engine power', (err, car) => {
-			if (err) {
-				console.log(err);
-			} else {
-
-				car.name = req.body.name;
-				car.brand = req.body.brand;
-				car.engine = req.body.engine;
-				car.power = req.body.power;
-
-				car
-				.save()
-				.then(() => {
-					res.send({
-						'status': 'Success',
-						'message': 'Car is successfully saved.'
-					})
-				})
-				.catch(() => {
+			.findById(id, 'name brand engine power', (err, car) => {
+				if (err) {
 					res.send({
 						'status': 'Error'
 					})
-				})
-			}
-		})
+				} else {
+
+					car.name = req.body.name;
+					car.brand = req.body.brand;
+					car.engine = req.body.engine;
+					car.power = req.body.power;
+
+					car
+					.save()
+					.then(() => {
+						res.send({
+							'status': 'Success',
+							'message': 'Car is successfully saved.'
+						})
+					})
+					.catch(() => {
+						res.send({
+							'status': 'Error'
+						})
+					})
+				}
+			})
 
 	})
 
@@ -145,20 +130,20 @@ module.exports.controller = app => {
 		let id = req.params.id;
 
 		Car
-		.remove({
-			_id: id
-		})
-		.then(() => {
-			res.send({
-				'status': 'Success',
-				'message': 'Car is successfully deleted.'
+			.remove({
+				_id: id
 			})
-		})
-		.catch(() => {
-			res.send({
-				'status': 'Error'
+			.then(() => {
+				res.send({
+					'status': 'Success',
+					'message': 'Car is successfully deleted.'
+				})
 			})
-		})
+			.catch(() => {
+				res.send({
+					'status': 'Error'
+				})
+			})
 	})
 
 }
