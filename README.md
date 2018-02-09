@@ -9,7 +9,8 @@
 $ npm install # or yarn install
 
 # Run backend server
-$ npm run start
+$ cd server
+$ npm run dev
 
 # Run frontend client
 $ cd client
