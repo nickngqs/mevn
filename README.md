@@ -17,4 +17,9 @@ $ cd client
 $ npm run dev
 ```
 
+## Application
+
+Server (Express App) will run on `http://localhost:3001`
+Client (Nuxt.js App) will run on `http://localhost:3000`
+
 
