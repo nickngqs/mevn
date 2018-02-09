@@ -55,7 +55,7 @@ export default {
 				if (response.data.status == 'Success') {
 					new Noty({
 						type: 'success',
-						text: 'Successfully updated',
+						text: 'Successfully added',
 						callbacks: {
 							afterShow() {
 								setTimeout(() => {
