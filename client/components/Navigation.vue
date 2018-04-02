@@ -3,6 +3,7 @@
 		.navigation__links
 			nuxt-link(to='/') Home
 			nuxt-link(to='/cars') Cars
+			nuxt-link(to='/posts') Posts
 </template>
 
 <style lang='scss'>
